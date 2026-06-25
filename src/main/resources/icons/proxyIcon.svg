@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+  <!-- Left client block -->
+  <rect x="0" y="4" width="3" height="5" rx="0.5" fill="#4F9EE3"/>
+
+  <!-- Right server block -->
+  <rect x="10" y="4" width="3" height="5" rx="0.5" fill="#4F9EE3"/>
+
+  <!-- Center proxy block -->
+  <rect x="4.5" y="3" width="4" height="7" rx="1" fill="#2675BF"/>
+
+  <!-- Forward arrow: left → center (upper channel) -->
+  <line x1="3" y1="5.5" x2="4.5" y2="5.5" stroke="#6EC0FF" stroke-width="1"/>
+  <polygon points="3.8,5 4.5,5.5 3.8,6" fill="#6EC0FF"/>
+
+  <!-- Return arrow: center → right (lower channel) -->
+  <line x1="8.5" y1="7.5" x2="10" y2="7.5" stroke="#6EC0FF" stroke-width="1"/>
+  <polygon points="9.3,7 10,7.5 9.3,8" fill="#6EC0FF"/>
+</svg>

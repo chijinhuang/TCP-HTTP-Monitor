@@ -1,0 +1,7 @@
+.gradle
+.idea
+.intellijPlatform
+.kotlin
+build
+build_compile.log
+build_output.txt
