@@ -15,7 +15,6 @@ import javax.net.ssl.X509TrustManager
 object CertificateUtil {
 
     private const val KEYSTORE_PASSWORD = "tcp-proxy-plugin"
-    private const val KEY_ALIAS = "tcp-proxy-self-signed"
     private const val KEYSTORE_RESOURCE_PATH = "/keystore/server.jks"
 
     /**
