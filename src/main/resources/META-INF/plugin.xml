@@ -96,6 +96,7 @@
                    secondary="true"
                    icon="/icons/proxyIcon.svg"
                    anchor="bottom"
+                   doNotActivateOnStart="false"
                    factoryClass="org.sea.proxy.ProxyToolWindowFactory"/>
     </extensions>
 

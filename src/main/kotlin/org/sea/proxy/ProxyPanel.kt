@@ -2,6 +2,7 @@ package org.sea.proxy
 
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.colors.EditorFontType
 import com.intellij.openapi.project.Project
@@ -459,7 +460,9 @@ class ProxyTabPanel(val config: ProxyConfig, var server: ProxyServer) : JPanel(B
     private val listModel = DefaultListModel<String>()
     private val connectionList = JBList(listModel).apply {
         selectionMode = ListSelectionModel.SINGLE_SELECTION
-        font = EditorColorsManager.getInstance().globalScheme.getFont(EditorFontType.PLAIN)
+        font = ReadAction.compute<java.awt.Font, RuntimeException> {
+            EditorColorsManager.getInstance().globalScheme.getFont(EditorFontType.PLAIN)
+        }
     }
 
     // Filter text field
@@ -475,7 +478,9 @@ class ProxyTabPanel(val config: ProxyConfig, var server: ProxyServer) : JPanel(B
     // Right: read-only monospaced text area
     private val logArea = JBTextArea().apply {
         isEditable = false
-        font = EditorColorsManager.getInstance().globalScheme.getFont(EditorFontType.PLAIN)
+        font = ReadAction.compute<java.awt.Font, RuntimeException> {
+            EditorColorsManager.getInstance().globalScheme.getFont(EditorFontType.PLAIN)
+        }
         lineWrap = false
     }
 
