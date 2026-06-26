@@ -32,11 +32,20 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
     // ------------------------------------------------------------------
     private val toolbar: ActionToolbar = buildToolbar()
 
+    // ------------------------------------------------------------------
+    // Right toolbar (donation)
+    // ------------------------------------------------------------------
+    private val rightToolbar: ActionToolbar = buildRightToolbar()
+
     init {
         val toolbarComponent = toolbar.component
         toolbarComponent.preferredSize = Dimension(toolbarComponent.preferredSize.width, toolbarComponent.preferredSize.height)
 
+        val rightToolbarComponent = rightToolbar.component
+        rightToolbarComponent.preferredSize = Dimension(rightToolbarComponent.preferredSize.width, rightToolbarComponent.preferredSize.height)
+
         add(toolbarComponent, BorderLayout.WEST)
+        add(rightToolbarComponent, BorderLayout.EAST)
         add(tabbedPane, BorderLayout.CENTER)
 
         // Load saved proxy configs from previous session (servers start stopped)
@@ -79,6 +88,16 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
         }
         val toolbar = ActionManager.getInstance()
             .createActionToolbar("ProxyToolbar", group, false) // false = vertical
+        toolbar.targetComponent = this
+        return toolbar
+    }
+
+    private fun buildRightToolbar(): ActionToolbar {
+        val group = DefaultActionGroup().apply {
+            add(DonateAction())
+        }
+        val toolbar = ActionManager.getInstance()
+            .createActionToolbar("ProxyDonationToolbar", group, false) // false = vertical
         toolbar.targetComponent = this
         return toolbar
     }
@@ -259,6 +278,17 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
         }
     }
 
+    /** "❤" – opens the donation dialog. */
+    private inner class DonateAction : AnAction(
+        "Donate",
+        "Support this plugin",
+        AllIcons.General.User
+    ) {
+        override fun actionPerformed(e: AnActionEvent) {
+            DonationDialog().show()
+        }
+    }
+
     
 
     // ------------------------------------------------------------------
@@ -322,8 +352,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
      * The close button stops the proxy server and removes the tab when clicked.
      */
     private fun buildCloseableTabTitle(title: String, tabPanel: ProxyTabPanel): JPanel {
-        val panel = JPanel().apply {
-            layout = java.awt.BorderLayout(4, 0)
+        val panel = JPanel(java.awt.BorderLayout(4, 0)).apply {
             isOpaque = false
             border = EmptyBorder(2, 4, 2, 4)
         }
