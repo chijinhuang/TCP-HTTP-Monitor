@@ -61,7 +61,7 @@ class ProxyConfigurationDialog(
     }
 
     init {
-        title = if (initialConfig == null) "New Proxy Configuration" else "Edit Proxy Configuration"
+        title = if (initialConfig == null) "New Monitor Configuration" else "Edit Monitor Configuration"
 
         // Set initial proxy type if editing
         if (initialConfig != null) {
@@ -128,7 +128,7 @@ class ProxyConfigurationDialog(
 
         // Basic Configuration Section with border
         val basicConfigPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel("Proxy Type:"), radioPanel, 1, false)
+            .addLabeledComponent(JBLabel("Monitor Type:"), radioPanel, 1, false)
             .addLabeledComponent(JBLabel("Local Port:"), localPortField, 1, false)
             .addLabeledComponent(JBLabel("Remote Host:"), remoteHostField, 1, false)
             .addLabeledComponent(JBLabel("Remote Port:"), remotePortField, 1, false)

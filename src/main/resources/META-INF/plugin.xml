@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
      Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-    <name>TCP/HTTP Proxy</name>
+    <name>TCP/HTTP Monitor</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor url="https://gitee.com/9123">Chi Jinhuang</vendor>
@@ -13,72 +13,72 @@
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-        <h2>Proxy Plugin</h2>
-        <p>A lightweight TCP/HTTP proxy tool integrated directly into your IDE. Intercept, monitor, and debug network traffic without leaving your development environment.</p>
+        <h2>TCP/HTTP Monitor</h2>
+        <p>A lightweight TCP/HTTP monitoring tool integrated directly into your IDE. Capture, observe, and debug network traffic without leaving your development environment.</p>
 
         <h3>Key Features</h3>
         <ul>
-            <li><b>TCP Proxy</b> – Forward raw TCP connections with full byte-level logging, ideal for debugging database, messaging, or custom binary protocols.</li>
-            <li><b>HTTP Proxy</b> – Intercept HTTP requests and responses with detailed header and payload inspection, including Host header rewriting and Location header rewriting support.</li>
+            <li><b>TCP Monitor</b> – Forward raw TCP connections with full byte-level logging, ideal for debugging database, messaging, or custom binary protocols.</li>
+            <li><b>HTTP Monitor</b> – Intercept HTTP requests and responses with detailed header and payload inspection, including Host header rewriting and Location header rewriting support.</li>
             <li><b>TLS/SSL Support</b> – Enable TLS on the incoming side, the target side, or both, with configurable certificate trust options.</li>
-            <li><b>Multi-Tab Management</b> – Run multiple proxy instances simultaneously, each in its own tab with independent configuration and logs.</li>
+            <li><b>Multi-Tab Management</b> – Run multiple monitor instances simultaneously, each in its own tab with independent configuration and logs.</li>
             <li><b>Connection Filtering</b> – Quickly filter connections by keyword to locate the traffic you care about.</li>
-            <li><b>Persistent Configuration</b> – Save proxy configurations to disk so they are automatically restored when you reopen the IDE.</li>
+            <li><b>Persistent Configuration</b> – Save monitor configurations to disk so they are automatically restored when you reopen the IDE.</li>
             <li><b>Custom Encoding</b> – Configure the character encoding used to display TCP payloads for human-readable output.</li>
         </ul>
 
         <h3>Use Cases</h3>
         <ul>
             <li>Debug API calls between a frontend and backend service</li>
-            <li>Reverse-proxy services running on remote hosts to a local port</li>
+            <li>Expose services running on remote hosts to a local port for inspection</li>
             <li>Inspect TLS-encrypted traffic from a target service by trusting its certificate, then expose the decrypted traffic on a local TLS or non-TLS port for debugging</li>
         </ul>
 
         <h3>Getting Started</h3>
-        <p>Open the <b>Proxy</b> tool window from the bottom toolbar of the IDE, then click the <b>+</b> button to create a new proxy configuration.</p>
+        <p>Open the <b>Monitor</b> tool window from the bottom toolbar of the IDE, then click the <b>+</b> button to create a new monitor configuration.</p>
 
         <h4>Basic Configuration</h4>
         <ul>
-            <li><b>Proxy Type</b> – Select <b>TCP</b> or <b>HTTP</b>.</li>
-            <li><b>Local Port</b> – The port the proxy listens on (e.g. <code>8080</code>).</li>
+            <li><b>Monitor Type</b> – Select <b>TCP</b> or <b>HTTP</b>.</li>
+            <li><b>Local Port</b> – The port the monitor listens on (e.g. <code>8080</code>).</li>
             <li><b>Remote Host</b> – The target server hostname or IP (e.g. <code>192.168.1.100</code>).</li>
             <li><b>Remote Port</b> – The target server port (e.g. <code>3306</code>).</li>
             <li><b>Encoding</b> – Character encoding used to display TCP payloads (default: system charset).</li>
         </ul>
 
-        <h4>Using TCP Proxy</h4>
+        <h4>Using TCP Monitor</h4>
         <ol>
-            <li>Select <b>TCP</b> as the proxy type.</li>
+            <li>Select <b>TCP</b> as the monitor type.</li>
             <li>Enter the local port to listen on and the remote host/port to forward to.</li>
             <li>Optionally set the <b>Encoding</b> field (e.g. <code>UTF-8</code>, <code>GBK</code>) to decode raw bytes into readable text.</li>
-            <li>Click <b>OK</b> to start the proxy. All raw byte traffic between the client and the target will be captured and displayed in the log panel.</li>
+            <li>Click <b>OK</b> to start the monitor. All raw byte traffic between the client and the target will be captured and displayed in the log panel.</li>
         </ol>
         <p><i>Example: Forward local port 3307 to a MySQL server at 192.168.1.100:3306 to inspect the wire protocol.</i></p>
 
-        <h4>Using HTTP Proxy</h4>
+        <h4>Using HTTP Monitor</h4>
         <ol>
-            <li>Select <b>HTTP</b> as the proxy type.</li>
+            <li>Select <b>HTTP</b> as the monitor type.</li>
             <li>Enter the local port and the remote host/port of the target HTTP service.</li>
             <li>Enable <b>Replace Host header with target</b> to rewrite the <code>Host</code> request header to match the target server, avoiding virtual-host mismatches.</li>
-            <li>Enable <b>Rewrite Location header to localhost</b> to rewrite <code>Location</code> response headers so redirects point back to the proxy, keeping traffic flowing through the proxy.</li>
+            <li>Enable <b>Rewrite Location header to localhost</b> to rewrite <code>Location</code> response headers so redirects point back to the monitor, keeping traffic flowing through it.</li>
             <li>Click <b>OK</b> to start. HTTP requests and responses are logged with method, URI, status code, headers, and payload.</li>
         </ol>
         <p><i>Example: Forward local port 8080 to an API server at api.example.com:443 with TLS enabled on the target side.</i></p>
 
         <h4>TLS Configuration</h4>
-        <p>TLS options apply to both TCP and HTTP proxy types:</p>
+        <p>TLS options apply to both TCP and HTTP monitor types:</p>
         <ul>
-            <li><b>Enable TLS for incoming requests</b> – The proxy accepts TLS-encrypted connections from clients. A built-in keystore is used for the server certificate.</li>
-            <li><b>Enable TLS for target server</b> – The proxy connects to the target server over TLS. This is required when the target service uses HTTPS or any TLS-wrapped protocol.</li>
-            <li><b>Trust target server certificate</b> – When enabled, the proxy accepts the target server's certificate without validation (useful for self-signed certificates in development environments). This option is only available when <b>Enable TLS for target server</b> is checked.</li>
+            <li><b>Enable TLS for incoming requests</b> – The monitor accepts TLS-encrypted connections from clients. A built-in keystore is used for the server certificate.</li>
+            <li><b>Enable TLS for target server</b> – The monitor connects to the target server over TLS. This is required when the target service uses HTTPS or any TLS-wrapped protocol.</li>
+            <li><b>Trust target server certificate</b> – When enabled, the monitor accepts the target server's certificate without validation (useful for self-signed certificates in development environments). This option is only available when <b>Enable TLS for target server</b> is checked.</li>
         </ul>
-        <p><i>Example: To proxy HTTPS traffic to a local dev server with a self-signed cert, enable both <b>Enable TLS for target server</b> and <b>Trust target server certificate</b>.</i></p>
+        <p><i>Example: To forward HTTPS traffic to a local dev server with a self-signed cert, enable both <b>Enable TLS for target server</b> and <b>Trust target server certificate</b>.</i></p>
 
         <h4>Saving and Managing Configurations</h4>
         <ul>
-            <li>Click <b>Save</b> in the dialog to persist the configuration. Saved proxies are restored automatically on the next IDE startup (in a stopped state).</li>
-            <li>Use the <b>Edit</b> (ℹ) button to modify an existing proxy. Click <b>Unsave</b> to remove it from persistent storage while keeping the current tab open.</li>
-            <li>Use the <b>▶</b> / <b>■</b> buttons to start and stop individual proxies, and the <b>🗑</b> button to clear the connection log.</li>
+            <li>Click <b>Save</b> in the dialog to persist the configuration. Saved monitors are restored automatically on the next IDE startup (in a stopped state).</li>
+            <li>Use the <b>Edit</b> (ℹ) button to modify an existing monitor. Click <b>Unsave</b> to remove it from persistent storage while keeping the current tab open.</li>
+            <li>Use the <b>▶</b> / <b>■</b> buttons to start and stop individual monitors, and the <b>🗑</b> button to clear the connection log.</li>
         </ul>
 
         <hr/>
@@ -92,7 +92,7 @@
     <!-- Extensions defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Proxy"
+        <toolWindow id="Monitor"
                    secondary="true"
                    icon="/icons/proxyIcon.svg"
                    anchor="bottom"

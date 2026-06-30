@@ -44,7 +44,7 @@ class TCPProxyServer(
     private var connectionExecutor: ExecutorService? = null
 
     override fun start() {
-        check(!_isRunning.get()) { "Proxy server is already running on port $localPort" }
+        check(!_isRunning.get()) { "Monitor server is already running on port $localPort" }
         _isRunning.set(true)
         
         serverSocket = if (enableIncomingTls) {
@@ -61,15 +61,15 @@ class TCPProxyServer(
         }
         
         val tlsInfo = if (enableIncomingTls) " (TLS)" else ""
-        println("[TCPProxyServer] Server started on port $localPort$tlsInfo, forwarding to $remoteHost:$remotePort")
+        println("[TCPMonitorServer] Server started on port $localPort$tlsInfo, forwarding to $remoteHost:$remotePort")
     }
 
     override fun stop() {
         if (!_isRunning.compareAndSet(true, false)) {
-            println("[TCPProxyServer] stop() called but server is not running on port $localPort")
+            println("[TCPMonitorServer] stop() called but server is not running on port $localPort")
             return
         }
-        println("[TCPProxyServer] Stopping server on port $localPort...")
+        println("[TCPMonitorServer] Stopping server on port $localPort...")
         
         // First close server socket to unblock accept()
         val socketToClose = serverSocket
@@ -77,9 +77,9 @@ class TCPProxyServer(
         
         runCatching {
             socketToClose?.close()
-            println("[TCPProxyServer] Server socket on port $localPort closed")
+            println("[TCPMonitorServer] Server socket on port $localPort closed")
         }.onFailure { ex ->
-            println("[TCPProxyServer] Error closing server socket: ${ex.message}")
+            println("[TCPMonitorServer] Error closing server socket: ${ex.message}")
         }
         
         // Close all active sockets to interrupt ongoing connections
@@ -89,11 +89,11 @@ class TCPProxyServer(
             runCatching {
                 socket.close()
             }.onFailure { ex ->
-                println("[TCPProxyServer] Error closing active socket: ${ex.message}")
+                println("[TCPMonitorServer] Error closing active socket: ${ex.message}")
             }
         }
         if (socketsToClose.isNotEmpty()) {
-            println("[TCPProxyServer] Closed ${socketsToClose.size} active socket(s) on port $localPort")
+            println("[TCPMonitorServer] Closed ${socketsToClose.size} active socket(s) on port $localPort")
         }
         
         // Then shutdown executors
@@ -102,7 +102,7 @@ class TCPProxyServer(
         acceptExecutor = null
         connectionExecutor = null
         
-        println("[TCPProxyServer] Server on port $localPort stopped successfully")
+        println("[TCPMonitorServer] Server on port $localPort stopped successfully")
     }
 
     // -------------------------------------------------------------------------

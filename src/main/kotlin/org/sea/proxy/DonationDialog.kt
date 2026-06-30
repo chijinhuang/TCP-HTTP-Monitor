@@ -38,7 +38,7 @@ class DonationDialog : DialogWrapper(true) {
             """
             <html>
               <div style='text-align:left; width:340px;'>
-                <b>Thank you for using Proxy Plugin!</b>
+                <b>Thank you for using TCP/HTTP Monitor!</b>
                 <br/><br/>
                 If you find this plugin helpful, please consider supporting its development.
                 Your generous support means a lot to us and is truly appreciated.

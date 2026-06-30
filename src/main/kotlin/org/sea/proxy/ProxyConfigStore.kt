@@ -36,6 +36,7 @@ object ProxyConfigStore {
             val port = portStr.trim().toIntOrNull() ?: return@mapNotNull null
             loadSingleConfig(p, port)
         }
+
     }
 
     private fun loadSingleConfig(props: PropertiesComponent, localPort: Int): ProxyConfig? {

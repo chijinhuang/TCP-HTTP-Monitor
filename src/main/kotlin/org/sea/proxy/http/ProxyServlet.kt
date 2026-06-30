@@ -116,9 +116,9 @@ class ProxyServlet : HttpServlet() {
                 }
             }
 
-            println("[HttpProxyServer] Collected ${allHeaders.size} headers from client:")
+            println("[HttpMonitorServer] Collected ${allHeaders.size} headers from client:")
             allHeaders.forEach { (name, values) ->
-                println("[HttpProxyServer]   $name: ${values.joinToString("; ")}")
+                println("[HttpMonitorServer]   $name: ${values.joinToString("; ")}")
             }
 
             // Read body once (InputStream is single-use).
@@ -156,9 +156,9 @@ class ProxyServlet : HttpServlet() {
 
             val proxiedRequest = requestBuilder.build()
 
-            println("[HttpProxyServer] Final OkHttp request headers (what will be sent):")
+            println("[HttpMonitorServer] Final OkHttp request headers (what will be sent):")
             proxiedRequest.headers.forEach { (name, value) ->
-                println("[HttpProxyServer]   $name: $value")
+                println("[HttpMonitorServer]   $name: $value")
             }
 
             // Emit request line event
@@ -188,9 +188,9 @@ class ProxyServlet : HttpServlet() {
 
                 resp.status = responseCode
 
-                println("[HttpProxyServer] OkHttp response headers (status=$responseCode $responseMessage):")
+                println("[HttpMonitorServer] OkHttp response headers (status=$responseCode $responseMessage):")
                 response.headers.forEach { (name, value) ->
-                    println("[HttpProxyServer]   $name: $value")
+                    println("[HttpMonitorServer]   $name: $value")
                 }
 
                 // Copy response headers to client
@@ -253,7 +253,7 @@ class ProxyServlet : HttpServlet() {
             }
 
         } catch (ex: Exception) {
-            println("[HttpProxyServer] Error handling request: ${ex.javaClass.simpleName}: ${ex.message}")
+            println("[HttpMonitorServer] Error handling request: ${ex.javaClass.simpleName}: ${ex.message}")
             ex.printStackTrace()
             server.listener?.onEvent(ProxyEvent.Error(ProxyType.HTTP, connectionId, label, sourceAddr, targetAddr, ex))
             if (!resp.isCommitted) {

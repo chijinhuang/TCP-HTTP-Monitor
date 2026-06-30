@@ -43,7 +43,7 @@ class HttpProxyServer(
     private var undertow: Undertow? = null
 
     override fun start() {
-        check(!_isRunning.get()) { "Proxy server is already running on port $localPort" }
+        check(!_isRunning.get()) { "Monitor server is already running on port $localPort" }
         _isRunning.set(true)
 
         // Register this server instance so servlets can look it up
@@ -53,10 +53,10 @@ class HttpProxyServer(
         val deployment = Servlets.deployment()
         deployment.setClassLoader(HttpProxyServer::class.java.classLoader)
         deployment.setContextPath("/")
-        deployment.setDeploymentName("http-proxy")
+        deployment.setDeploymentName("http-monitor")
 
         // Register proxy servlet
-        val servletInfo = Servlets.servlet("ProxyServlet", ProxyServlet::class.java)
+        val servletInfo = Servlets.servlet("MonitorServlet", ProxyServlet::class.java)
             .addMapping("/*")
         servletInfo.addInitParam("remoteHost", remoteHost)
         servletInfo.addInitParam("remotePort", remotePort.toString())
@@ -87,28 +87,28 @@ class HttpProxyServer(
 
         val tlsInfo = if (enableIncomingTls) " (TLS)" else ""
         val targetTlsInfo = if (enableTargetTls) " (TLS to target)" else ""
-        println("[HttpProxyServer] Server started on port $localPort$tlsInfo, forwarding to $remoteHost:$remotePort$targetTlsInfo")
+        println("[HttpMonitorServer] Server started on port $localPort$tlsInfo, forwarding to $remoteHost:$remotePort$targetTlsInfo")
     }
 
     override fun stop() {
         if (!_isRunning.compareAndSet(true, false)) {
-            println("[HttpProxyServer] stop() called but server is not running on port $localPort")
+            println("[HttpMonitorServer] stop() called but server is not running on port $localPort")
             return
         }
-        println("[HttpProxyServer] Stopping server on port $localPort...")
+        println("[HttpMonitorServer] Stopping server on port $localPort...")
 
         // Stop undertow server
         runCatching {
             undertow?.stop()
-            println("[HttpProxyServer] Undertow server on port $localPort stopped")
+            println("[HttpMonitorServer] Undertow server on port $localPort stopped")
         }.onFailure { ex ->
-            println("[HttpProxyServer] Error stopping undertow server: ${ex.message}")
+            println("[HttpMonitorServer] Error stopping undertow server: ${ex.message}")
         }
 
         undertow = null
         HttpProxyServerRegistry.unregister(localPort)
 
-        println("[HttpProxyServer] Server on port $localPort stopped successfully")
+        println("[HttpMonitorServer] Server on port $localPort stopped successfully")
     }
 
     /**

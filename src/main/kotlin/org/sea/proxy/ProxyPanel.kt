@@ -88,7 +88,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
             add(ClearProxyAction())
         }
         val toolbar = ActionManager.getInstance()
-            .createActionToolbar("ProxyToolbar", group, false) // false = vertical
+            .createActionToolbar("MonitorToolbar", group, false) // false = vertical
         toolbar.targetComponent = this
         return toolbar
     }
@@ -98,15 +98,15 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
             add(DonateAction())
         }
         val toolbar = ActionManager.getInstance()
-            .createActionToolbar("ProxyDonationToolbar", group, false) // false = vertical
+            .createActionToolbar("MonitorDonationToolbar", group, false) // false = vertical
         toolbar.targetComponent = this
         return toolbar
     }
 
     /** "+" – opens [ProxyConfigurationDialog] and adds a new tab on confirmation. */
     private inner class AddProxyAction : AnAction(
-        "Add Proxy",
-        "Create a new proxy configuration",
+        "Add Monitor",
+        "Create a new monitor configuration",
         AllIcons.General.Add
     ) {
         override fun actionPerformed(e: AnActionEvent) {
@@ -119,7 +119,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
                     addProxyTab(config, autoStart = false)
                     Messages.showInfoMessage(
                         project,
-                        "Proxy configuration for port ${config.localPort} has been saved.",
+                        "Monitor configuration for port ${config.localPort} has been saved.",
                         "Saved Successfully"
                     )
                 } else {
@@ -132,8 +132,8 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
 
     /** "i" – opens [ProxyConfigurationDialog] with current tab's config for editing. */
     private inner class EditProxyAction : AnAction(
-        "Edit Proxy",
-        "Edit the selected proxy configuration",
+        "Edit Monitor",
+        "Edit the selected monitor configuration",
         AllIcons.General.Information
     ) {
         override fun actionPerformed(e: AnActionEvent) {
@@ -149,7 +149,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
                         removeSavedConfig(currentConfig.localPort)
                         Messages.showInfoMessage(
                             project,
-                            "Proxy configuration for port ${currentConfig.localPort} has been removed from saved configurations.",
+                            "Monitor configuration for port ${currentConfig.localPort} has been removed from saved configurations.",
                             "Unsaved Successfully"
                         )
                         return
@@ -164,7 +164,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
                         saveConfig(newConfig)
                         Messages.showInfoMessage(
                             project,
-                            "Proxy configuration for port ${newConfig.localPort} has been saved.",
+                            "Monitor configuration for port ${newConfig.localPort} has been saved.",
                             "Saved Successfully"
                         )
                     }
@@ -187,8 +187,8 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
 
     /** "▶" – starts the proxy server for the selected tab. */
     private inner class StartProxyAction : AnAction(
-        "Start Proxy",
-        "Start the selected proxy server",
+        "Start Monitor",
+        "Start the selected monitor server",
         AllIcons.Actions.Execute
     ) {
         override fun actionPerformed(e: AnActionEvent) {
@@ -201,7 +201,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
                     } catch (ex: Exception) {
                         Messages.showErrorDialog(
                             project,
-                            "Failed to start proxy on port ${tabPanel.config.localPort}: ${ex.message}",
+                            "Failed to start monitor on port ${tabPanel.config.localPort}: ${ex.message}",
                             "Start Error"
                         )
                     }
@@ -218,8 +218,8 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
 
     /** "■" – stops the proxy server for the selected tab and clears the log. */
     private inner class StopProxyAction : AnAction(
-        "Stop Proxy",
-        "Stop the selected proxy server and clear logs",
+        "Stop Monitor",
+        "Stop the selected monitor server and clear logs",
         AllIcons.Actions.Suspend
     ) {
         override fun actionPerformed(e: AnActionEvent) {
@@ -243,15 +243,15 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
 
     /** "-" – stops the server, removes the tab, and deletes the saved config. */
     private inner class RemoveProxyAction : AnAction(
-        "Remove Proxy",
-        "Remove the selected proxy configuration",
+        "Remove Monitor",
+        "Remove the selected monitor configuration",
         AllIcons.General.Remove
     ) {
         override fun actionPerformed(e: AnActionEvent) {
             val idx = tabbedPane.selectedIndex
             if (idx >= 0) {
                 val tabPanel = tabbedPane.getComponentAt(idx) as? ProxyTabPanel
-                println("[RemoveProxyAction] Removing tab at index $idx, server running: ${tabPanel?.server?.isRunning}")
+                println("[RemoveMonitorAction] Removing tab at index $idx, server running: ${tabPanel?.server?.isRunning}")
                 tabPanel?.server?.stop()
                 // Remove config from persistent store
                 tabPanel?.let { removeSavedConfig(it.config.localPort) }
