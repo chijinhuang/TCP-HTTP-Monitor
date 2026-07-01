@@ -1,0 +1,7 @@
+Calculating task graph as configuration cache cannot be reused because file 'src\main\resources\META-INF\plugin.xml' has changed.
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin
+
+BUILD SUCCESSFUL in 24s
+1 actionable task: 1 executed
+Configuration cache entry stored.
