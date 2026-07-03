@@ -1,6 +1,6 @@
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 
-rootProject.name = "proxy-plugin"
+rootProject.name = "TCP-HTTP-Monitor"
 
 pluginManagement {
     plugins {
