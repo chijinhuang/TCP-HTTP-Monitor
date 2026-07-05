@@ -33,20 +33,11 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
     // ------------------------------------------------------------------
     private val toolbar: ActionToolbar = buildToolbar()
 
-    // ------------------------------------------------------------------
-    // Right toolbar (donation)
-    // ------------------------------------------------------------------
-    private val rightToolbar: ActionToolbar = buildRightToolbar()
-
     init {
         val toolbarComponent = toolbar.component
         toolbarComponent.preferredSize = Dimension(toolbarComponent.preferredSize.width, toolbarComponent.preferredSize.height)
 
-        val rightToolbarComponent = rightToolbar.component
-        rightToolbarComponent.preferredSize = Dimension(rightToolbarComponent.preferredSize.width, rightToolbarComponent.preferredSize.height)
-
         add(toolbarComponent, BorderLayout.WEST)
-        add(rightToolbarComponent, BorderLayout.EAST)
         add(tabbedPane, BorderLayout.CENTER)
 
         // Load saved proxy configs from previous session (servers start stopped)
@@ -93,15 +84,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
         return toolbar
     }
 
-    private fun buildRightToolbar(): ActionToolbar {
-        val group = DefaultActionGroup().apply {
-            add(DonateAction())
-        }
-        val toolbar = ActionManager.getInstance()
-            .createActionToolbar("MonitorDonationToolbar", group, false) // false = vertical
-        toolbar.targetComponent = this
-        return toolbar
-    }
+
 
     /** "+" – opens [ProxyConfigurationDialog] and adds a new tab on confirmation. */
     private inner class AddProxyAction : AnAction(
@@ -279,18 +262,7 @@ class ProxyPanel(private val project: Project) : JPanel(BorderLayout()) {
         }
     }
 
-    /** "❤" – opens the donation dialog. */
-    private inner class DonateAction : AnAction(
-        "Donate",
-        "Support this plugin",
-        AllIcons.General.User
-    ) {
-        override fun actionPerformed(e: AnActionEvent) {
-            DonationDialog().show()
-        }
-    }
 
-    
 
     // ------------------------------------------------------------------
     // Internal helpers
