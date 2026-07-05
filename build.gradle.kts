@@ -7,6 +7,16 @@ plugins {
 }
 
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
+intellijPlatform {
+    pluginConfiguration {
+        version = project.version.toString()
+    }
+    publishing {
+        token = System.getenv("INTELLIJ_PLATFORM_PUBLISH_TOKEN")
+            ?: project.findProperty("intellij.platform.publish.token") as? String
+    }
+}
+
 dependencies {
     testImplementation(libs.junit)
     implementation(libs.undertow.servlet)
